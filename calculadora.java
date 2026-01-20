@@ -1,10 +1,7 @@
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
+import javax.swing.*;
 
 public class calculadora extends JFrame implements ActionListener {
 
@@ -18,12 +15,15 @@ public class calculadora extends JFrame implements ActionListener {
     JButton botao7;
     JButton botao8;
     JButton botao9;
+
     JButton botaoSoma;
     JButton botaoSub;
     JButton botaoMul;
     JButton botaoDiv;
+
     JTextField campo1;
     JTextField campo2;
+    JTextField lastCamp;
 
     public calculadora(String n) {
         super(n);
@@ -34,8 +34,32 @@ public class calculadora extends JFrame implements ActionListener {
         JPanel painelCampos = new JPanel();
         painelCampos.setLayout(new GridLayout(1, 2));
 
-        JTextField campo1 = new JTextField(null);
-        JTextField campo2 = new JTextField(null);
+        campo1 = new JTextField(null);
+        campo1.addFocusListener(
+        new FocusListener(){
+            @Override
+            public void focusGained(FocusEvent e) {
+                lastCamp = campo1;
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            }
+        });
+
+        campo2 = new JTextField(null);
+        campo2.addFocusListener(
+            new FocusListener(){
+            @Override
+            public void focusGained(FocusEvent e) {
+                lastCamp = campo2;
+            }
+            
+            @Override
+            public void focusLost(FocusEvent e){
+            }
+            }
+        );
 
         painelCampos.add(campo1);
         painelCampos.add(campo2);
@@ -47,26 +71,44 @@ public class calculadora extends JFrame implements ActionListener {
         JPanel painelNumeros = new JPanel();
         painelNumeros.setLayout(new GridLayout(3, 3));
 
-        JButton botao1 = new JButton("1");
-        JButton botao2 = new JButton("2");
-        JButton botao3 = new JButton("3");
-        JButton botao4 = new JButton("4");
-        JButton botao5 = new JButton("5");
-        JButton botao6 = new JButton("6");
-        JButton botao7 = new JButton("7");
-        JButton botao8 = new JButton("8");
-        JButton botao9 = new JButton("9");
-        JButton botao0 = new JButton("0");
-
+        botao1 = new JButton("1");
+        botao1.setActionCommand("botao1");
         botao1.addActionListener(this);
+
+        botao2 = new JButton("2");
+        botao2.setActionCommand("botao2");
         botao2.addActionListener(this);
+
+        botao3 = new JButton("3");
+        botao3.setActionCommand("botao3");
         botao3.addActionListener(this);
+
+        botao4 = new JButton("4");
+        botao4.setActionCommand("botao4");
         botao4.addActionListener(this);
+
+        botao5 = new JButton("5");
+        botao5.setActionCommand("botao5");
         botao5.addActionListener(this);
+
+        botao6 = new JButton("6");
+        botao6.setActionCommand("botao6");
         botao6.addActionListener(this);
+
+        botao7 = new JButton("7");
+        botao7.setActionCommand("botao7");
         botao7.addActionListener(this);
+
+        botao8 = new JButton("8");
+        botao8.setActionCommand("botao8");
         botao8.addActionListener(this);
+
+        botao9 = new JButton("9");
+        botao9.setActionCommand("botao9");
         botao9.addActionListener(this);
+
+        botao0 = new JButton("0");
+        botao0.setActionCommand("botao0");
         botao0.addActionListener(this);
 
         painelNumeros.add(botao1);
@@ -87,10 +129,10 @@ public class calculadora extends JFrame implements ActionListener {
         JPanel painelOperadores = new JPanel();
         painelOperadores.setLayout(new GridLayout(4, 1));
 
-        JButton botaoSoma = new JButton("+");
-        JButton botaoSub = new JButton("-");
-        JButton botaoMul = new JButton("x");
-        JButton botaoDiv = new JButton("/");
+        botaoSoma = new JButton("+");
+        botaoSub = new JButton("-");
+        botaoMul = new JButton("x");
+        botaoDiv = new JButton("/");
 
         botaoSoma.addActionListener(this);
         botaoSub.addActionListener(this);
@@ -117,55 +159,34 @@ public class calculadora extends JFrame implements ActionListener {
         getContentPane().add(painel);
     }
 
-    public void actionPerformed(ActionEvent e) {
-        Object target = e.getSource();
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        String target = event.getActionCommand();
 
-        if (target == botao0) {
-            campo1.setText(campo1.getText() + "0");
-        }
-        if (target == botao1) {
-            campo1.setText(campo1.getText() + "1");
-        }
-        if (target == botao2) {
-            campo1.setText(campo1.getText() + "2");
-        }
-        if (target == botao3) {
-            campo1.setText(campo1.getText() + "3");
-        }
-        if (target == botao4) {
-            campo1.setText(campo1.getText() + "4");
-        }
-        if (target == botao5) {
-            campo1.setText(campo1.getText() + "5");
-        }
-        if (target == botao6) {
-            campo1.setText(campo1.getText() + "6");
-        }
-        if (target == botao7) {
-            campo1.setText(campo1.getText() + "7");
-        }
-        if (target == botao8) {
-            campo1.setText(campo1.getText() + "8");
-        }
-        if (target == botao9) {
-            campo1.setText(campo1.getText() + "9");
-        }
-        if (target == botaoSoma) {
+        switch(target){
+            case "botao0" -> lastCamp.setText(lastCamp.getText() + "0");
+            case "botao1" -> lastCamp.setText(lastCamp.getText() + "1");
+            case "botao2" -> lastCamp.setText(lastCamp.getText() + "2");
+            case "botao3" -> lastCamp.setText(lastCamp.getText() + "3");
+            case "botao4" -> lastCamp.setText(lastCamp.getText() + "4");
+            case "botao5" -> lastCamp.setText(lastCamp.getText() + "5");
+            case "botao6" -> lastCamp.setText(lastCamp.getText() + "6");
+            case "botao7" -> lastCamp.setText(lastCamp.getText() + "7");
+            case "botao8" -> lastCamp.setText(lastCamp.getText() + "8");
+            case "botao9" -> lastCamp.setText(lastCamp.getText() + "9");
 
-        }
-        if (target == botaoSub) {
-        }
-        if (target == botaoMul) {
-        }
-        if (target == botaoDiv) {
-        }
 
+            default -> throw new AssertionError();
+        }
+        
     }
+
 
     public static void main(String[] args) {
         calculadora ca = new calculadora("Calculadora");
-        ca.setSize(400, 200);
+        ca.setSize(250, 400);
         ca.setVisible(true);
+        ca.setAlwaysOnTop(true);
 
     }
 }
