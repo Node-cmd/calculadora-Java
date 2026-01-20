@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
@@ -35,6 +36,7 @@ public class calculadora extends JFrame implements ActionListener {
         painelCampos.setLayout(new BoxLayout(painelCampos, BoxLayout.X_AXIS));
 
         campo1 = new JTextField(null);
+        campo1.setPreferredSize(new Dimension(0, 50));
         campo1.addFocusListener(
         new FocusListener(){
             @Override
@@ -48,6 +50,7 @@ public class calculadora extends JFrame implements ActionListener {
         });
 
         campo2 = new JTextField(null);
+        campo2.setPreferredSize(new Dimension(0, 50));
         campo2.addFocusListener(
             new FocusListener(){
             @Override
@@ -64,13 +67,8 @@ public class calculadora extends JFrame implements ActionListener {
         painelCampos.add(campo1);
         painelCampos.add(campo2);
 
-        /* Numeros */
-        JPanel painelNumeros2 = new JPanel();
-        painelNumeros2.setLayout(new BorderLayout());
-
-        JPanel painelNumeros = new JPanel();
-        painelNumeros.setLayout(new GridLayout(3, 3,2,2));
-
+        /* Botões de Numeros */
+     
         botao1 = new JButton("1");
         botao1.setActionCommand("botao1");
         botao1.addActionListener(this);
@@ -111,60 +109,53 @@ public class calculadora extends JFrame implements ActionListener {
         botao0.setActionCommand("botao0");
         botao0.addActionListener(this);
 
-        painelNumeros.add(botao1);
-        painelNumeros.add(botao2);
-        painelNumeros.add(botao3);
-        painelNumeros.add(botao4);
-        painelNumeros.add(botao5);
-        painelNumeros.add(botao6);
-        painelNumeros.add(botao7);
-        painelNumeros.add(botao8);
-        painelNumeros.add(botao9);
-
-        painelNumeros2.add(painelNumeros, BorderLayout.CENTER);
-        painelNumeros2.add(botao0, BorderLayout.SOUTH);
-
-        /* Operadores */
-
-        JPanel painelOperadores = new JPanel();
-        painelOperadores.setLayout(new GridLayout(4, 1,2,2));
+        /* Botões de Operadores */
 
         botaoSoma = new JButton("+");
         botaoSoma.setActionCommand("soma");
+        botaoSoma.addActionListener(this);
 
         botaoSub = new JButton("-");
         botaoSub.setActionCommand("sub");
+        botaoSub.addActionListener(this);
 
         botaoMul = new JButton("x");
         botaoMul.setActionCommand("multi");
+        botaoMul.addActionListener(this);
 
         botaoDiv = new JButton("/");
         botaoDiv.setActionCommand("div");
-
-
-        botaoSoma.addActionListener(this);
-        botaoSub.addActionListener(this);
-        botaoMul.addActionListener(this);
         botaoDiv.addActionListener(this);
 
-        painelOperadores.add(botaoSoma);
-        painelOperadores.add(botaoSub);
-        painelOperadores.add(botaoMul);
-        painelOperadores.add(botaoDiv);
+        /*Teclado*/
 
-        /* */
         JPanel teclado = new JPanel();
-        teclado.setLayout(new BorderLayout());
-        teclado.add(painelNumeros2, BorderLayout.CENTER);
-        teclado.add(painelOperadores, BorderLayout.EAST);
+        teclado.setLayout(new GridLayout(4, 4,2,2));
 
-       
+        teclado.add(botao1);
+        teclado.add(botao2);
+        teclado.add(botao3);
+        teclado.add(botaoSoma);
+
+        teclado.add(botao4);
+        teclado.add(botao5);
+        teclado.add(botao6);
+        teclado.add(botaoSub);
+
+        teclado.add(botao7);
+        teclado.add(botao8);
+        teclado.add(botao9);
+        teclado.add(botaoMul);
+
+        teclado.add(new JPanel());
+        teclado.add(botao0);
+        teclado.add(new JPanel());
+        teclado.add(botaoDiv);
         
         painel.setLayout(new BorderLayout(4,4));
 
         painel.add(painelCampos, BorderLayout.NORTH);
         painel.add(teclado, BorderLayout.CENTER);
-        
 
         getContentPane().add(painel);        
     }
@@ -218,6 +209,7 @@ public class calculadora extends JFrame implements ActionListener {
         calculadora ca = new calculadora("Calculadora");
         ca.setSize(250, 400);
         ca.setVisible(true);
+        ca.setResizable(false);
         ca.setAlwaysOnTop(true);
 
     }
