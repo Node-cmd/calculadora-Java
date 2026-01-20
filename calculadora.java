@@ -32,7 +32,7 @@ public class calculadora extends JFrame implements ActionListener {
 
         /* Campos */
         JPanel painelCampos = new JPanel();
-        painelCampos.setLayout(new GridLayout(1, 2));
+        painelCampos.setLayout(new BoxLayout(painelCampos, BoxLayout.X_AXIS));
 
         campo1 = new JTextField(null);
         campo1.addFocusListener(
@@ -69,7 +69,7 @@ public class calculadora extends JFrame implements ActionListener {
         painelNumeros2.setLayout(new BorderLayout());
 
         JPanel painelNumeros = new JPanel();
-        painelNumeros.setLayout(new GridLayout(3, 3));
+        painelNumeros.setLayout(new GridLayout(3, 3,2,2));
 
         botao1 = new JButton("1");
         botao1.setActionCommand("botao1");
@@ -127,12 +127,20 @@ public class calculadora extends JFrame implements ActionListener {
         /* Operadores */
 
         JPanel painelOperadores = new JPanel();
-        painelOperadores.setLayout(new GridLayout(4, 1));
+        painelOperadores.setLayout(new GridLayout(4, 1,2,2));
 
         botaoSoma = new JButton("+");
+        botaoSoma.setActionCommand("soma");
+
         botaoSub = new JButton("-");
+        botaoSub.setActionCommand("sub");
+
         botaoMul = new JButton("x");
+        botaoMul.setActionCommand("multi");
+
         botaoDiv = new JButton("/");
+        botaoDiv.setActionCommand("div");
+
 
         botaoSoma.addActionListener(this);
         botaoSub.addActionListener(this);
@@ -150,13 +158,15 @@ public class calculadora extends JFrame implements ActionListener {
         teclado.add(painelNumeros2, BorderLayout.CENTER);
         teclado.add(painelOperadores, BorderLayout.EAST);
 
-        /* */
-        painel.setLayout(new BorderLayout());
+       
+        
+        painel.setLayout(new BorderLayout(4,4));
 
         painel.add(painelCampos, BorderLayout.NORTH);
         painel.add(teclado, BorderLayout.CENTER);
+        
 
-        getContentPane().add(painel);
+        getContentPane().add(painel);        
     }
 
     @Override
@@ -174,9 +184,31 @@ public class calculadora extends JFrame implements ActionListener {
             case "botao7" -> lastCamp.setText(lastCamp.getText() + "7");
             case "botao8" -> lastCamp.setText(lastCamp.getText() + "8");
             case "botao9" -> lastCamp.setText(lastCamp.getText() + "9");
-
-
-            default -> throw new AssertionError();
+            
+            case "soma" -> {
+                int x = Integer.parseInt(campo1.getText());
+                int y = Integer.parseInt(campo2.getText());
+                campo2.setText(String.valueOf(x+y));
+            }
+            case "sub" -> {
+                int x = Integer.parseInt(campo1.getText());
+                int y = Integer.parseInt(campo2.getText());
+                campo2.setText(String.valueOf(x - y));
+            }
+            case "multi" -> {
+                int x = Integer.parseInt(campo1.getText());
+                int y = Integer.parseInt(campo2.getText());
+                campo2.setText(String.valueOf(x * y));
+            }
+            case "div" -> {
+                int x = Integer.parseInt(campo1.getText());
+                int y = Integer.parseInt(campo2.getText());
+                if (y != 0) {
+                    campo2.setText(String.valueOf(x / y));
+                } else {
+                    campo2.setText("Erro: Divisão por zero");
+                }
+            }
         }
         
     }
