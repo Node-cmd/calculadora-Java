@@ -1,0 +1,1 @@
+Projeto de calculadora elaborado para a turma 3 de POO (Programação Orientada a Objetos) da UFS. O objetivo do projeto é desenvolver uma calculadora funcional, utilizando conceitos de interface gráfica e técnicas de tratamento de exceções, além dos conceitos básicos de POO e da linguagem Java.
