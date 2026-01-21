@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -22,10 +23,12 @@ public class calculadora extends JFrame implements ActionListener {
     JButton botaoMul;
     JButton botaoDiv;
 
+    JTextPane campoErro;
     JTextField campo1;
     JTextField campo2;
     JTextField lastCamp;
 
+    /* Inicialização da Interface */
     public calculadora(String n) {
         super(n);
 
@@ -35,40 +38,47 @@ public class calculadora extends JFrame implements ActionListener {
         JPanel painelCampos = new JPanel();
         painelCampos.setLayout(new BoxLayout(painelCampos, BoxLayout.X_AXIS));
 
+        JPanel painelTelas = new JPanel();
+        painelTelas.setLayout(new BoxLayout(painelTelas, BoxLayout.Y_AXIS));
+
+        campoErro = new JTextPane();
+
         campo1 = new JTextField(null);
         campo1.setPreferredSize(new Dimension(0, 50));
         campo1.addFocusListener(
-        new FocusListener(){
-            @Override
-            public void focusGained(FocusEvent e) {
-                lastCamp = campo1;
-            }
+                new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        lastCamp = campo1;
+                    }
 
-            @Override
-            public void focusLost(FocusEvent e) {
-            }
-        });
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                    }
+                });
 
         campo2 = new JTextField(null);
         campo2.setPreferredSize(new Dimension(0, 50));
         campo2.addFocusListener(
-            new FocusListener(){
-            @Override
-            public void focusGained(FocusEvent e) {
-                lastCamp = campo2;
-            }
-            
-            @Override
-            public void focusLost(FocusEvent e){
-            }
-            }
-        );
+                new FocusListener() {
+                    @Override
+                    public void focusGained(FocusEvent e) {
+                        lastCamp = campo2;
+                    }
 
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                    }
+                });
+        lastCamp = campo1;
         painelCampos.add(campo1);
         painelCampos.add(campo2);
 
+        painelTelas.add(campoErro);
+        painelTelas.add(painelCampos);
+
         /* Botões de Numeros */
-     
+
         botao1 = new JButton("1");
         botao1.setActionCommand("botao1");
         botao1.addActionListener(this);
@@ -127,10 +137,10 @@ public class calculadora extends JFrame implements ActionListener {
         botaoDiv.setActionCommand("div");
         botaoDiv.addActionListener(this);
 
-        /*Teclado*/
+        /* Teclado */
 
         JPanel teclado = new JPanel();
-        teclado.setLayout(new GridLayout(4, 4,2,2));
+        teclado.setLayout(new GridLayout(4, 4, 2, 2));
 
         teclado.add(botao1);
         teclado.add(botao2);
@@ -151,59 +161,80 @@ public class calculadora extends JFrame implements ActionListener {
         teclado.add(botao0);
         teclado.add(new JPanel());
         teclado.add(botaoDiv);
-        
-        painel.setLayout(new BorderLayout(4,4));
 
-        painel.add(painelCampos, BorderLayout.NORTH);
+        /* Painel Principal */
+        painel.setLayout(new BorderLayout(4, 4));
+
+        painel.add(painelTelas, BorderLayout.NORTH);
         painel.add(teclado, BorderLayout.CENTER);
 
-        getContentPane().add(painel);        
+        getContentPane().add(painel);
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        String target = event.getActionCommand();
+        try {
+            String target = event.getActionCommand();
 
-        switch(target){
-            case "botao0" -> lastCamp.setText(lastCamp.getText() + "0");
-            case "botao1" -> lastCamp.setText(lastCamp.getText() + "1");
-            case "botao2" -> lastCamp.setText(lastCamp.getText() + "2");
-            case "botao3" -> lastCamp.setText(lastCamp.getText() + "3");
-            case "botao4" -> lastCamp.setText(lastCamp.getText() + "4");
-            case "botao5" -> lastCamp.setText(lastCamp.getText() + "5");
-            case "botao6" -> lastCamp.setText(lastCamp.getText() + "6");
-            case "botao7" -> lastCamp.setText(lastCamp.getText() + "7");
-            case "botao8" -> lastCamp.setText(lastCamp.getText() + "8");
-            case "botao9" -> lastCamp.setText(lastCamp.getText() + "9");
-            
-            case "soma" -> {
-                int x = Integer.parseInt(campo1.getText());
-                int y = Integer.parseInt(campo2.getText());
-                campo2.setText(String.valueOf(x+y));
+            switch (target) {
+                case "botao0" -> lastCamp.setText(lastCamp.getText() + "0");
+                case "botao1" -> lastCamp.setText(lastCamp.getText() + "1");
+                case "botao2" -> lastCamp.setText(lastCamp.getText() + "2");
+                case "botao3" -> lastCamp.setText(lastCamp.getText() + "3");
+                case "botao4" -> lastCamp.setText(lastCamp.getText() + "4");
+                case "botao5" -> lastCamp.setText(lastCamp.getText() + "5");
+                case "botao6" -> lastCamp.setText(lastCamp.getText() + "6");
+                case "botao7" -> lastCamp.setText(lastCamp.getText() + "7");
+                case "botao8" -> lastCamp.setText(lastCamp.getText() + "8");
+                case "botao9" -> lastCamp.setText(lastCamp.getText() + "9");
+
+                case "soma" -> soma(campo1, campo2);
+                case "sub" -> subtracao(campo1, campo2);
+                case "multi" -> multiplicacao(campo1, campo2);
+                case "div" -> divisao(campo1, campo2);
             }
-            case "sub" -> {
-                int x = Integer.parseInt(campo1.getText());
-                int y = Integer.parseInt(campo2.getText());
-                campo2.setText(String.valueOf(x - y));
-            }
-            case "multi" -> {
-                int x = Integer.parseInt(campo1.getText());
-                int y = Integer.parseInt(campo2.getText());
-                campo2.setText(String.valueOf(x * y));
-            }
-            case "div" -> {
-                int x = Integer.parseInt(campo1.getText());
-                int y = Integer.parseInt(campo2.getText());
-                if (y != 0) {
-                    campo2.setText(String.valueOf(x / y));
-                } else {
-                    campo2.setText("Erro: Divisão por zero");
-                }
+        } catch (ArithmeticException e) {
+            campoErro.setText("Erro: Divisão por zero!");
+            System.err.printf("Exception: %s\n", e);
+        } catch (NumberFormatException e) {
+            if (campo1.getText().isEmpty() || campo2.getText().isEmpty()) {
+                campoErro.setText("Erro: Campo vazio!");
+                System.err.printf("Exception: %s\n", e);
+            } else {
+                campoErro.setText("Erro: Digite um número!");
+                System.err.printf("Exception: %s\n", e);
             }
         }
-        
+
     }
 
+    private void soma(JTextField tf1, JTextField tf2) {
+        int x = Integer.parseInt(tf1.getText());
+        int y = Integer.parseInt(tf2.getText());
+
+        campo2.setText(String.valueOf(x + y));
+    }
+
+    private void subtracao(JTextField tf1, JTextField tf2) {
+        int x = Integer.parseInt(tf1.getText());
+        int y = Integer.parseInt(tf2.getText());
+
+        campo2.setText(String.valueOf(x - y));
+    }
+
+    private void multiplicacao(JTextField tf1, JTextField tf2) {
+        int x = Integer.parseInt(tf1.getText());
+        int y = Integer.parseInt(tf2.getText());
+
+        campo2.setText(String.valueOf(x * y));
+    }
+
+    private void divisao(JTextField tf1, JTextField tf2) {
+        int x = Integer.parseInt(tf1.getText());
+        int y = Integer.parseInt(tf2.getText());
+
+        campo2.setText(String.valueOf(x / y));
+    }
 
     public static void main(String[] args) {
         calculadora ca = new calculadora("Calculadora");
@@ -211,6 +242,8 @@ public class calculadora extends JFrame implements ActionListener {
         ca.setVisible(true);
         ca.setResizable(false);
         ca.setAlwaysOnTop(true);
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        ca.setLocation((screen.width / 2) - 125, (screen.height / 2) - 200);
 
     }
 }
