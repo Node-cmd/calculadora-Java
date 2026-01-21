@@ -42,6 +42,8 @@ public class calculadora extends JFrame implements ActionListener {
         painelTelas.setLayout(new BoxLayout(painelTelas, BoxLayout.Y_AXIS));
 
         campoErro = new JTextPane();
+        campoErro.setEditable(false);
+        campoErro.setFocusable(false);
 
         campo1 = new JTextField(null);
         campo1.setPreferredSize(new Dimension(0, 50));
@@ -209,31 +211,39 @@ public class calculadora extends JFrame implements ActionListener {
     }
 
     private void soma(JTextField tf1, JTextField tf2) {
-        int x = Integer.parseInt(tf1.getText());
-        int y = Integer.parseInt(tf2.getText());
+        double x = Double.parseDouble(tf1.getText());
+        double y = Double.parseDouble(tf2.getText());
 
         campo2.setText(String.valueOf(x + y));
+        campoErro.setText("");
     }
 
     private void subtracao(JTextField tf1, JTextField tf2) {
-        int x = Integer.parseInt(tf1.getText());
-        int y = Integer.parseInt(tf2.getText());
+        double x = Double.parseDouble(tf1.getText());
+        double y = Double.parseDouble(tf2.getText());
 
         campo2.setText(String.valueOf(x - y));
+        campoErro.setText("");
     }
 
     private void multiplicacao(JTextField tf1, JTextField tf2) {
-        int x = Integer.parseInt(tf1.getText());
-        int y = Integer.parseInt(tf2.getText());
+        double x = Double.parseDouble(tf1.getText());
+        double y = Double.parseDouble(tf2.getText());
 
         campo2.setText(String.valueOf(x * y));
+        campoErro.setText("");
     }
 
     private void divisao(JTextField tf1, JTextField tf2) {
-        int x = Integer.parseInt(tf1.getText());
-        int y = Integer.parseInt(tf2.getText());
+        double x = Double.parseDouble(tf1.getText());
+        double y = Double.parseDouble(tf2.getText());
+
+        if(y==0){
+            throw new ArithmeticException("Divisão por zero");
+        }
 
         campo2.setText(String.valueOf(x / y));
+        campoErro.setText("");
     }
 
     public static void main(String[] args) {
